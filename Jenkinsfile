@@ -20,11 +20,11 @@ pipeline {
                 script {
                     // Build frontend
                     dir('bezkoder-ui') {
-                        bat 'docker build -t %DOCKERHUB_USERNAME%/mern-frontend:latest .'
+                        sh 'docker build -t $DOCKERHUB_USERNAME/mern-frontend:latest .'
                     }
                     // Build backend
                     dir('bezkoder-api') {
-                        bat 'docker build -t %DOCKERHUB_USERNAME%/mern-backend:latest .'
+                        sh 'docker build -t $DOCKERHUB_USERNAME/mern-backend:latest .'
                     }
                 }
             }
@@ -34,9 +34,9 @@ pipeline {
             steps {
                 echo 'Pushing images to Docker Hub...'
                 script {
-                    bat 'echo %DOCKERHUB_CREDENTIALS_PSW% | docker login -u %DOCKERHUB_CREDENTIALS_USR% --password-stdin'
-                    bat 'docker push %DOCKERHUB_USERNAME%/mern-frontend:latest'
-                    bat 'docker push %DOCKERHUB_USERNAME%/mern-backend:latest'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker push $DOCKERHUB_USERNAME/mern-frontend:latest'
+                    sh 'docker push $DOCKERHUB_USERNAME/mern-backend:latest'
                 }
             }
         }
@@ -44,7 +44,7 @@ pipeline {
         stage('Cleanup') {
             steps {
                 echo 'Logging out from Docker Hub...'
-                bat 'docker logout'
+                sh 'docker logout'
             }
         }
     }
