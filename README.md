@@ -21,18 +21,65 @@ Stopping all the running containers is also simple with a single command:
 docker-compose down
 ```
 
-If you need to stop and remove all containers, networks, and all images used by any service in <em>docker-compose.yml</em> file, use the command:
-```bash
-docker-compose down --rmi all
+# MERN Stack DevOps Project
+
+## Overview
+Full-stack MERN application with complete CI/CD pipeline using Jenkins, Docker, and Kubernetes.
+
+## Technologies Used
+- **Frontend:** React.js
+- **Backend:** Node.js + Express
+- **Database:** MongoDB
+- **CI/CD:** Jenkins
+- **Containerization:** Docker
+- **Orchestration:** Kubernetes (Minikube)
+- **Version Control:** Git/GitHub
+
+## Architecture
+```
+GitHub → Webhook → Jenkins → Docker Build → Docker Hub → Kubernetes Deployment
 ```
 
-For more detail, please visit:
-> [Docker Compose MERN Stack with Nginx example](https://www.bezkoder.com/docker-mern/)
+## Features
+- Automated CI/CD pipeline with Jenkins
+- GitHub webhook integration for automatic builds
+- Docker containerization of all services
+- Kubernetes orchestration with multiple replicas
+- Persistent storage for MongoDB
 
-Related Posts:
-> [React + Node.js + Express + MongoDB example](https://bezkoder.com/react-node-express-mongodb-mern-stack/)
+## Deployment
 
-> [React + Node.js Express + MongoDB: User Authentication with JWT example](https://www.bezkoder.com/react-node-mongodb-auth/)
+### Prerequisites
+- Docker Desktop
+- Minikube
+- kubectl
+- Jenkins
 
-Integration (run back-end & front-end on same server/port)
-> [Integrate React with Node.js Restful Services](https://bezkoder.com/integrate-react-express-same-server-port/)
+### Kubernetes Deployment
+```bash
+kubectl apply -f k8s/mongodb-deployment.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+```
+
+### Access Application
+```bash
+kubectl port-forward service/frontend 8888:80
+```
+Then visit: http://localhost:8888
+
+## Jenkins Pipeline Stages
+1. **Checkout** - Pull code from GitHub
+2. **Build** - Create Docker images for frontend and backend
+3. **Push** - Upload images to Docker Hub
+4. **Cleanup** - Logout from Docker Hub
+
+## Project Structure
+```
+├── bezkoder-api/          # Backend Node.js application
+├── bezkoder-ui/           # Frontend React application
+├── k8s/                   # Kubernetes manifests
+├── nginx/                 # Nginx configuration
+├── Jenkinsfile            # Jenkins pipeline definition
+└── docker-compose.yml     # Docker Compose configuration
+```
